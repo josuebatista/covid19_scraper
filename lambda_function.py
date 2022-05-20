@@ -13,7 +13,7 @@ object_s3 = boto3.resource('s3') \
 old_page = object_s3.get().get('Body').read()
 
 # List of phone numbers to send to
-phone_numbers = ['14123787004']
+phone_numbers = ['5555555555']
 
 # Connect to AWS Simple Notification Service
 sns_client = boto3.client('sns', region_name='us-east-1')
