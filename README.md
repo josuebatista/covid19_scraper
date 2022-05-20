@@ -9,3 +9,6 @@ Python SDK in AWS CLoud9 IDE - https://www.cloud-plusplus.com/post/python-sdk-in
  sudo python3 -m pip install requests  
  sudo python3 -m pip install bs4 
  
+## Reference Architecture
+
+![](https://github.com/josuebatista/covid19_scraper/blob/main/AWS_COVID19_Monitor_Serverless_App.png)
