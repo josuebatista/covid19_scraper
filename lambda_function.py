@@ -59,5 +59,4 @@ def lambda_handler(event, context):
         object_s3.put(Body = str(newCases))
         print("Successfully wrote new data to S3")
 
-
-lambda_handler(0,0)
+#lambda_handler(0,0)
