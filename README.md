@@ -1,7 +1,7 @@
-# COVID-19 Serverless Monitor and Notification App on AWS
+# COVID-19 Serverless Monitor and Notification App on Amazon Web Services (AWS)
 ## AWS Serverless cloud-based scraper that monitors COVID19 cases and send notifications on case numbers.
 
-This serverless app is written in Python and uses Amazon Web Services (AWS) EventBridge, Lambda, S3, and SMS to monitor the number of COVID-19 cases in a given state in the US and send notifications via text messages if the number of cases changes.
+This serverless app is written in Python and uses the Amazon Web Services (AWS) platform: EventBridge, Lambda, S3, and SMS, to monitor the number of COVID-19 cases in a given state in the US and send notifications via text messages if the number of cases changes.
 
 <img src="https://user-images.githubusercontent.com/25143822/171071316-c2889ff6-ea21-409c-8a71-67bd258a5726.png" width="50%" height="50%">
 
