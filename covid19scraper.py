@@ -53,32 +53,34 @@ usa_state_url = [
     ('WV','https://www.worldometers.info/coronavirus/usa/west-virginia/'),
     ('WI','https://www.worldometers.info/coronavirus/usa/wisconsin/'),
     ('WY','https://www.worldometers.info/coronavirus/usa/wyoming/')
-    ]
-#print(usa_state_url[0])
-# https://www.geeksforgeeks.org/python-find-first-element-by-second-in-tuple-list/
-#K = 'DC'
-# finds first element in tuple by second element match
-#res = [x for (x, y) in test_list if y == K]
-# finds second element in tuple by first element match
-#res = [y for (x, y) in usa_state_url if x == K]
+]
 
-#print(res[0])
-
-def scrapeGlobalCase (us_state):
+def scrapeGlobalCase(us_state):
     try:
-        #url = "https://www.worldometers.info/coronavirus/usa/pennsylvania/"
+        if not isinstance(us_state, str) or len(us_state) != 2:
+            raise ValueError("Invalid state code")
+
         res = [y for (x, y) in usa_state_url if x == us_state]
+        if not res:
+            raise ValueError("State code not found")
+
         url = res[0]
-        req = requests.get(url)
+        req = requests.get(url, timeout=10)
+        req.raise_for_status()
+
         bsObj = BeautifulSoup(req.text, "html.parser")
-        dato = bsObj.find_all(attrs={'style':True})
-        LastUpdate = dato[3].text.strip()
-        data = bsObj.find_all("div",class_ = "maincounter-number")
+        dato = bsObj.find_all(attrs={'style': True})
+        LastUpdate = dato[3].text.strip() if len(dato) > 3 else "Unknown"
+
+        data = bsObj.find_all("div", class_="maincounter-number")
+        if len(data) < 3:
+            raise ValueError("Incomplete data fetched")
+
         NumConfirmed = int(data[0].text.strip().replace(',', ''))
         NumDeaths = int(data[1].text.strip().replace(',', ''))
         NumRecovered = int(data[2].text.strip().replace(',', ''))
         NumActive = NumConfirmed - NumDeaths - NumRecovered
-        # TimeNow = datetime.datetime.now() 
+
         return {
             'us_state': us_state,
             'date': LastUpdate,
@@ -87,7 +89,6 @@ def scrapeGlobalCase (us_state):
             'recoveredCases': NumRecovered,
             'deaths': NumDeaths
         }
-    except Exception as e: print(e)
-
-#testresults = scrapeGlobalCase('HI')
-#print(testresults)
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
