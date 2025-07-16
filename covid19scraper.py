@@ -69,7 +69,10 @@ def scrapeGlobalCase (us_state):
         #url = "https://www.worldometers.info/coronavirus/usa/pennsylvania/"
         res = [y for (x, y) in usa_state_url if x == us_state]
         url = res[0]
-        req = requests.get(url)
+        if not url.startswith('https://'):
+            raise ValueError('Invalid URL')
+        req = requests.get(url, timeout=10)
+        req.raise_for_status()
         bsObj = BeautifulSoup(req.text, "html.parser")
         dato = bsObj.find_all(attrs={'style':True})
         LastUpdate = dato[3].text.strip()
@@ -87,7 +90,10 @@ def scrapeGlobalCase (us_state):
             'recoveredCases': NumRecovered,
             'deaths': NumDeaths
         }
-    except Exception as e: print(e)
+    except requests.exceptions.RequestException as e:
+        print(f'Request failed: {e}')
+    except Exception as e:
+        print(f'Error: {e}')
 
 #testresults = scrapeGlobalCase('HI')
 #print(testresults)
