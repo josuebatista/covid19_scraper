@@ -62,7 +62,7 @@ def scrapeGlobalCase (us_state):
     try:
         res = [y for (x, y) in usa_state_url if x == us_state]
         url = res[0]
-        req = requests.get(url)
+        req = requests.get(url, timeout=10)
         bsObj = BeautifulSoup(req.text, "html.parser")
         dato = bsObj.find_all(attrs={'style':True})
         LastUpdate = dato[3].text.strip()
