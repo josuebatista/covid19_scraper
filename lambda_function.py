@@ -1,5 +1,6 @@
 import json
 import boto3
+import os
 from covid19scraper import scrapeGlobalCase
 
 # S3 object to store the last call
@@ -12,8 +13,8 @@ object_s3 = boto3.resource('s3') \
 # read in old results
 old_page = object_s3.get().get('Body').read()
 
-# List of phone numbers to send to
-phone_numbers = ['5555555555']
+# List of phone numbers to send to (now loaded securely from environment variable)
+phone_numbers = os.environ.get('COVID19_PHONE_NUMBERS', '').split(',') if os.environ.get('COVID19_PHONE_NUMBERS') else []
 
 # Connect to AWS Simple Notification Service
 sns_client = boto3.client('sns', region_name='us-east-1')
